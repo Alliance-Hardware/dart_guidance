@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # STM32 Dart Guidance
 
 ## 项目说明
@@ -92,3 +93,7 @@
 ## 许可证
 
 本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+=======
+# dart_guidance
+制导镖主控
+>>>>>>> ee8af9bd0bbeaf9f6b0ff70783571bcc57177b2b
