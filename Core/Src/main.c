@@ -26,10 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "imu.h"
-#include "pid.h"
-#include "interface.h"
-#include <stdint.h>
+#include "guidance_controller.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -51,16 +48,14 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+static GuidanceController_t guidance_controller;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-// 重写 _write 函数（GCC 环境下 printf 的底层调用）
 int _write(int file, char *ptr, int len)
 {
-    // 将 len 长度的数据通过串口发送出去
     HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, HAL_MAX_DELAY);
     return len;
 }
@@ -107,7 +102,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  GuidanceController_Config_t guidance_config;
 
+  GuidanceController_LoadDefaultConfig(&guidance_config);
+  GuidanceController_Init(&guidance_controller, &huart1, &guidance_config);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -117,6 +115,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    GuidanceController_RunOnce(&guidance_controller);
+    HAL_Delay(GUIDANCE_CONTROLLER_LOOP_PERIOD_MS);
   }
   /* USER CODE END 3 */
 }
@@ -134,7 +134,7 @@ void SystemClock_Config(void)
   */
   HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1_BOOST);
 
-  /** Initializes the RCC Oscillators according to the specified parameters
+  /** Initializes the RCC_Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;

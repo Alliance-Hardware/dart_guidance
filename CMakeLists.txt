@@ -70,6 +70,10 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Lib/Src/mahony.c
     Lib/Src/pid.c
     APP/Src/imu.c
+    APP/Src/target_tracker.c
+    APP/Src/aim_mapper.c
+    APP/Src/servo_mixer_x.c
+    APP/Src/guidance_controller.c
 )
 
 # Add include paths

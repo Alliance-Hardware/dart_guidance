@@ -1,6 +1,5 @@
 #include "interface.h"
-#include "dma.h"
-#include "usart.h"
+
 // 状态机状态
 typedef enum {
     STATE_IDLE,      // 等待帧头 0x5A
@@ -26,12 +25,13 @@ static void reset_state(void);
 
 //------------------------------------------------------------------------------
 void uart_receiver_init(UART_HandleTypeDef *huart) {
-    MX_DMA_Init();
-    MX_USART1_UART_Init();
     uart_handle = huart;
-    state = STATE_IDLE;
-    data_index = 0;
+    reset_state();
+    last_x = 0;
+    last_y = 0;
+    last_area = 0;
     data_ready = 0;
+    rx_byte = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ static void parse_byte(uint8_t byte) {
         }
 
         default:
-            state = STATE_IDLE;
+            reset_state();
             break;
     }
 }

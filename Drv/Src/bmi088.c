@@ -1,4 +1,4 @@
-#include "BMI088.h"
+#include "bmi088.h"
 #include "spi.h"
 #include "stm32g4xx_hal.h"
 #include "stm32g4xx_hal_def.h"

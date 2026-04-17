@@ -14,10 +14,6 @@ static uint32_t AngleToCCR(uint8_t angle)
 
 void Servo_Init(void)
 {
-    //初始化定时器和PWM通道
-    MX_TIM4_Init();
-    MX_TIM8_Init();
-
     // 启动定时器PWM输出
     HAL_TIM_PWM_Start(&SERVO1_TIM, SERVO1_CHANNEL);  // 舵机1
     HAL_TIM_PWM_Start(&SERVO2_TIM, SERVO2_CHANNEL);  // 舵机2
